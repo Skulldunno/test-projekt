@@ -1,9 +1,11 @@
 import random
 from datetime import *
 
+
 class Kunde:
     Kundenliste = {}
     Kundennummern = []
+
     def __init__(self, nachname = "NA", vorname = "NA", geburtsdatum = "NA",  bestellung_liste = None, kundennummer = None):
         if None == nachname or nachname == "NA":
             nachname = input("Nachname :\n")
@@ -44,13 +46,17 @@ class Kunde:
         else:
             self.__kundennummer = kundennummer
         Kunde.Kundenliste[self.__kundennummer] = self
+
     def get_kundennummer(self):
         return self.__kundennummer
+
     def add_bestellung(self, bestellung):
         self.bestellung_liste[bestellung] = Bestellung.Bestellungsliste[bestellung]
+
     def get_preis(self):
         for bestellung in self.bestellung_liste :
             print(bestellung.rechnungsbetrag)
+
     def kunden_upgrade(self):
         nachname = self.nachname
         vorname = self.vorname
@@ -62,14 +68,20 @@ class Kunde:
         Premiumkunde(nachname,vorname,str(geburtsdatum),bestellung_liste,kundennummer)
         Premiumkunde.kundenliste[self.__kundennummer] = self
         Kunde.Kundenliste.pop(self.__kundennummer)
+
+
 class Premiumkunde(Kunde):
     kundenliste = {}
+
     def get_preis(self):
         for bestellung in self.bestellung_liste :
             print(bestellung.rechnungsbetrag * 0.95)
+
+
 class Bestellung:
     Bestellungsliste = {}
     Bestellungsnummern = []
+
     def __init__(self, rechnungsbetrag, artikel_liste = None):
         if len(Bestellung.Bestellungsnummern) not in Bestellung.Bestellungsnummern :
             self.__bestellnummer = len(Bestellung.Bestellungsnummern)
@@ -84,14 +96,20 @@ class Bestellung:
         self.rechnungsbetrag = rechnungsbetrag
         Bestellung.Bestellungsliste[self.__bestellnummer] = self
         Bestellung.Bestellungsnummern.append(self.__bestellnummer)
+
     def get_bestellnummer(self):
         return self.__bestellnummer
+
     def get_date(self):
         datum = str(self._bestelldatum)
         return datum
+
+
 class UI:
+
     def __init__(self):
         self.run()
+
     def run(self):
         print(f"Starte {self}")
         while True:
@@ -123,8 +141,12 @@ class UI:
             elif auswahl == "8":
                 break
 
+
+
 def neuer_kunde():
     Kunde()
+
+
 def kunden_auflisten():
     print("Premiumkunden")
     print("_"*32)
@@ -142,6 +164,8 @@ def kunden_auflisten():
         print(f"{x.nachname:<10}|{x.get_kundennummer():>10}")
         for bestellung in x.bestellung_liste :
             print(f"{Bestellung.Bestellungsliste[bestellung].get_bestellnummer():<10}|{Bestellung.Bestellungsliste[bestellung].rechnungsbetrag:>10}")
+
+
 def kunde_entfernen():
     kunde = get_kunde()
     if kunde is False:
@@ -152,9 +176,13 @@ def kunde_entfernen():
         return print("Done, Boss")
     else:
         return print("OK zurück zum Hauptmenü")
+
+
 def neue_bestellung():
     manuell_preis = input("Preis")
     Bestellung(manuell_preis)
+
+
 def bestellungen_auflisten():
     for bestellung in Bestellung.Bestellungsliste:
         x = Bestellung.Bestellungsliste[bestellung]
@@ -162,6 +190,8 @@ def bestellungen_auflisten():
         for kunde in Kunde.Kundenliste:
             if bestellung in Kunde.Kundenliste[kunde].bestellung_liste:
                 print(f"{Kunde.Kundenliste[kunde].get_kundennummer():<10}|{x.get_bestellnummer():^15}")
+
+
 def get_kunde():
     while True:
         kunden_auflisten()
@@ -180,6 +210,8 @@ def get_kunde():
             return False
         else:
             print("Diesen Kunden gibt es nicht? (Falsche Kundennummer)")
+
+
 def get_bestellung():
     while True:
         bestellungen_auflisten()
@@ -195,6 +227,8 @@ def get_bestellung():
             return False
         else:
             print("Diese Bestellung gibt es nicht? (Falsche Bestellungsnummer)")
+
+
 def bestellung_zuweisen():
     kunde = get_kunde()
     if kunde is False:
@@ -210,6 +244,8 @@ def bestellung_zuweisen():
         return print("Done")
     else:
         return print("Gooner")
+
+
 def kunde_premium():
     kunde = get_kunde()
     if kunde is False:
@@ -219,6 +255,8 @@ def kunde_premium():
         return print("Done")
     else:
         return print("Ok zurück zum Hauptmenü")
+
+
 def double_check():
     sure = input("Sind Sie sich sicher? (Y/N)\n")
     if sure == "Y" or sure == "y":
@@ -226,4 +264,5 @@ def double_check():
     else:
         return False
 
-UI()
+if __name__ == "__main__":
+    UI()
