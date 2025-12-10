@@ -266,3 +266,5 @@ def double_check():
 
 if __name__ == "__main__":
     UI()
+
+wichtig = True
